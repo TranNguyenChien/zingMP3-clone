@@ -124,17 +124,20 @@ const listNormalPlaylists = [
       {
         name: "",
         artists: ["MCK", "tlinh", "Khắc Hưng"],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList4/playlist3.jfif",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList4/playlist3.jfif",
       },
       {
         name: "",
         artists: ["Rhymastic", "Phương Ly", "Touliver"],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList4/playlist4.jfif",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList4/playlist4.jfif",
       },
       {
         name: "",
         artists: ["Hương Ly", "Huy Nam (A#)", "Trúc Nhân"],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList4/playlist5.jfif",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList4/playlist5.jfif",
       },
     ],
   },
@@ -156,17 +159,20 @@ const listNormalPlaylists = [
       {
         name: "Nhạc Hàn Tháng 10/2021",
         artists: ["CL", "aespa", "Key"],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList5/playlist3.jpg",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList5/playlist3.jpg",
       },
       {
         name: "Nhạc Hoa Tháng 10/2021",
         artists: ["Trình Hưởng", "PANTHEPACK", "Sunnee Dương Vân Tình"],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList5/playlist4.jpg",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList5/playlist4.jpg",
       },
       {
         name: "Indie Việt Tháng 10/2021",
         artists: ["Duongg", "Starry Night", "Charles Huỳnh"],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList5/playlist5.jpg",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList5/playlist5.jpg",
       },
     ],
   },
@@ -188,17 +194,20 @@ const listNormalPlaylists = [
       {
         name: "Top 100 Pop Âu Mỹ Hay Nhất",
         artists: [],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList6/playlist3.jpg",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList6/playlist3.jpg",
       },
       {
         name: "Top 100 Nhạc Electronic/Dance Âu Mỹ Hay Nhất",
         artists: [],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList6/playlist4.jpg",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList6/playlist4.jpg",
       },
       {
         name: "Top 100 Nhạc Hàn Quốc Hay Nhất",
         artists: [],
-        imag: "/assets/images/tabExplore/normalPlaylists/playlistList6/playlist5.jpg",
+        image:
+          "/assets/images/tabExplore/normalPlaylists/playlistList6/playlist5.jpg",
       },
     ],
   },

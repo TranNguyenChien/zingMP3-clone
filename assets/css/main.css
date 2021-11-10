@@ -1262,13 +1262,9 @@ label .container__header-icon {
   display: none;
 }
 
-.playlist__list-song.active.playing .thumb--animate {
-  display: flex;
-}
-
 .thumb--animate-img {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin: auto;
 }
 
@@ -1415,21 +1411,6 @@ label .container__header-icon {
   transform: rotate(0);
 }
 
-.player__song-info.playing .player__song-thumb .thumb-img {
-  will-change: transform;
-  animation: rotateThumb 10s linear infinite;
-  -webkit-animation: rotateThumb 10s linear infinite;
-}
-
-@keyframes rotateThumb {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .player__song-thumb .thumb-note {
   opacity: 0;
   width: 10px;
@@ -1551,7 +1532,6 @@ label .container__header-icon {
 .player__title-animate {
   display: flex;
   flex-wrap: nowrap;
-  position: absolute;
 }
 
 .player__song-title .title__item {
@@ -1574,8 +1554,9 @@ label .container__header-icon {
   height: 32px;
 }
 
-.player .icon-play {
-  padding: 3px;
+.player .icon-play,
+.player .icon-pause {
+  padding: 4px;
   font-size: 3.8rem;
 }
 
@@ -2508,27 +2489,31 @@ label .container__header-icon {
 }
 
 /* Tab charts */
-.app__container.tab--charts .app__container-content {
-  padding-top: 110px;
+.chart--container {
+  padding: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(
+      to bottom,
+      rgb(116, 0, 145, 0.8),
+      rgb(104, 91, 126, 0.8)
+    ),
+    url("/assets/images/tabCharts/backgroundchart.jpg") top/cover no-repeat;
+  z-index: 2;
+  opacity: 0.95;
 }
 
-.charts__container {
-  padding-bottom: 30px;
-}
-
-.chart__container-header {
-  width: 100%;
+.chart--container .section__header {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-}
-
-.chart__header-name {
-  margin: 0;
-  font-size: 4rem;
-  font-weight: 800;
-  line-height: 4.9rem;
-  color: var(--text-item-hover);
+  font-size: 28px;
+  line-height: normal;
+  font-weight: 700;
+  letter-spacing: normal;
+  color: var(--white-color);
+  margin-bottom: 20px;
+  text-transform: none;
 }
 
 .chart__header-btn {
@@ -2536,7 +2521,8 @@ label .container__header-icon {
   height: 40px;
   display: flex;
   cursor: pointer;
-  margin-left: 5px;
+  margin-left: 3px;
+  padding: 12px;
   border-radius: 50%;
   background-color: var(--purple-primary);
 }
@@ -2545,20 +2531,8 @@ label .container__header-icon {
   margin: auto;
   width: 22px;
   height: 22px;
-  font-size: 2.2rem;
+  font-size: 1.6rem;
   color: var(--white-color);
-}
-
-.playlist__list-charts {
-  flex: 1;
-  display: flex;
-  font-weight: 500;
-  font-size: 1.2rem;
-  flex-direction: column;
-  overflow: hidden overlay;
-  scroll-behavior: smooth;
-  justify-content: flex-start;
-  will-change: scroll-position;
 }
 
 .playlist__list-charts::-webkit-scrollbar {

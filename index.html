@@ -1247,6 +1247,25 @@
               <div
                 class="row container__section normal-playlist--section mt-30"
               ></div>
+
+              <!-- Chart -->
+
+              <div class="row container__section tab--charts chart--container">
+                <div class="section__header">
+                  <a href="#">#zingchart</a>
+                  <div class="chart__header-btn">
+                    <i class="icon ic-play chart__header-icon"></i>
+                  </div>
+                </div>
+                <div
+                  class="container__header-actions hide-on-tablet-mobile"
+                ></div>
+                <canvas
+                  class="myChart"
+                  style="display: block; height: 300px; width: 582px"
+                ></canvas>
+              </div>
+
               <!-- Label -->
               <div class="row container__section mt-30">
                 <div class="col l-12 m-12 c-12">
@@ -1255,7 +1274,7 @@
               </div>
 
               <!-- Singer slide -->
-              <div class="row container__section">
+              <div class="row container__section mt-30 mb-30">
                 <div class="col l-12 m-12 c-12 singer__slide-row">
                   <div class="row no-wrap singer-slide--container"></div>
                 </div>
@@ -1298,14 +1317,6 @@
                   <div class="row no-wrap event--container"></div>
                 </div>
               </div>
-
-              <!-- Playlist -->
-              <div
-                class="row container__section normal-playlist--section mt-30"
-              ></div>
-              <div
-                class="row container__section special-playlist--section mt-30"
-              ></div>
 
               <!-- New Playlist -->
               <div class="row container__section mt-30">
@@ -1352,6 +1363,16 @@
               </div>
               <div
                 class="row container__section normal-playlist--section mt-30"
+              ></div>
+
+              <div
+                class="
+                  row
+                  container__section
+                  special-playlist--section
+                  mt-30
+                  mb-30
+                "
               ></div>
 
               <!-- Favorite artist -->
@@ -1415,7 +1436,12 @@
       </div>
 
       <!-- Tab charts -->
-      <div class="app__container tab--charts"></div>
+      <div
+        class="app__container tab--charts chart--container"
+        style="height: 80vh; width: 80vw"
+      >
+        <canvas class="myChart"></canvas>
+      </div>
 
       <!-- Tab radio -->
       <div class="app__container tab--radio">
@@ -1567,10 +1593,9 @@
                   <div class="player__song-title info__title">
                     <div class="player__title-animate">
                       <div class="title__item">Music name</div>
-                      <div class="title__item">Music name</div>
                     </div>
                   </div>
-                  <div class="player__song-author info__author">Author</div>
+                  <div class="player__song-author info__author"></div>
                 </div>
               </div>
               <div class="media__right hide-on-tablet-mobile">
@@ -1647,7 +1672,7 @@
                   max="100"
                 />
                 <div class="progress__track volume--track">
-                  <div class="progress__track-update"></div>
+                  <div class="progress__track-update" style="width: 100%"></div>
                 </div>
               </div>
               <div class="player__list-icon">
@@ -1700,7 +1725,7 @@
             <div
               class="player__popup-cd-img"
               style="
-                background: url('./assets/img/music/listSong1/song1.jpg')
+                background: url('/assets/images/music/listSong1/song1.jpg')
                   no-repeat center center / cover;
               "
             ></div>
@@ -1764,7 +1789,6 @@
                   <div class="player__song-body media__info">
                     <div class="player__song-title info__title">
                       <div class="player__title-animate">
-                        <div class="title__item">Music name</div>
                         <div class="title__item">Music name</div>
                       </div>
                     </div>
@@ -1880,6 +1904,15 @@
     <!-- Toast -->
     <div id="toast"></div>
 
+    <!-- Chart JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.js"
+      integrity="sha512-CWVDkca3f3uAWgDNVzW+W4XJbiC3CH84P2aWZXj+DqI6PNbTzXbl1dIzEHeNJpYSn4B6U8miSZb/hCws7FnUZA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script src="/assets/js/chart.js"></script>
     <script src="./data/themes.js"></script>
     <script src="./data/listThemes.js"></script>
     <script src="./data/songPlaylists.js"></script>

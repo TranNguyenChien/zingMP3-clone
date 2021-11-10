@@ -129,7 +129,7 @@ const listSong = [
     {
       name: "Tộc Ca",
       duration: "03:11",
-      singer: ["Phúc Du", "SONBEAT"],
+      singer: ["Phúc Du ", "SONBEAT "],
       path: "/assets/music/listSong1/song19.mp3",
       image: "/assets/images/music/listSong1/song19.jpg",
     },

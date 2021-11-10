@@ -17,11 +17,41 @@ const favortieSingle = $(".fav-artist--container");
 const brands = $(".brand--container");
 const eventExplore = $(".event--container");
 const labelExplore = $(".label--container");
+const slideSingerExplore = $$(".singer-slide--container");
+const chartContainer = $$(".chart--container");
+const following = $$(".story--container");
+const headerEvent = $(".header");
+const appContainer = $$(".app__container");
+const sidebarEvent = $(".sidebar__subnav");
+const sidebarSubNav = $(".sidebar__subnav");
+const titleItems = $$(".title__item");
+const thumbImgs = $$(".thumb-img");
+const audio = $("#audio");
+const inforAuthor = $$(".player__song-author");
+const player = $(".player");
+const contentNavBar = $$(".content__navbar-item");
+const tabContainers = $$(".container__tab");
+const sidebarNavItem = $$(".sidebar__nav-item");
+const appContainers = $$(".app__container");
+const progress = $$("#progress");
+const progressTracks = $$(
+  ".progress__track.song--track .progress__track-update"
+);
+const volumeRange = $(".volume__range");
+const seekVolume = $(".progress__track.volume--track .progress__track-update");
+const nextsong = $(".btn-next");
+const prevsong = $(".btn-prev");
+const btnRepeat = $(".btn-repeat");
+const btnRandom = $(".btn-random ");
 
-console.log(eventExplore);
+// console.log(itemPlaylists);
 
 const app = {
+  currentIndex: 0,
   currentPlayList: 0, //Create a starting value
+  isPlay: false,
+  isChangeVolume: false,
+  isRandom: false,
   albumList: JSON.parse(localStorage.getItem(ALBUM_STORAGE_KEY) || "[]"),
   brandsExplore: JSON.parse(localStorage.getItem(BRAND_STORAGE_KEY) || "[]"),
   slideExplores: JSON.parse(
@@ -36,6 +66,10 @@ const app = {
   favSingles: JSON.parse(
     localStorage.getItem(FAVORITE_ARTIST_STORAGE_KEY) || "[]"
   ),
+  labelExplores: JSON.parse(localStorage.getItem(LABEL_STORAGE_KEY) || "[]"),
+  singerSlice: JSON.parse(
+    localStorage.getItem(SINGER_SLIDE_STORAGE_KEY) || "[]"
+  ),
   eventExplores: JSON.parse(localStorage.getItem(EVENT_STORAGE_KEY) || "[]"),
   songPlayLists: JSON.parse(localStorage.getItem(MUSIC_STORAGE_KEY) || "[]"),
   playListsSong: JSON.parse(localStorage.getItem(PLAYLIST_STORAGE_KEY) || "[]"),
@@ -45,10 +79,11 @@ const app = {
   newPlaylistLists: JSON.parse(
     localStorage.getItem(NEW_PLAYLIST_STORAGE_KEY) || "[]"
   ),
+  followingList: JSON.parse(localStorage.getItem(POST_STORAGE_KEY) || "[]"),
 
   //Render Song
   rederListSong: function () {
-    this.songs = this.songPlayLists[this.currentPlayList];
+    this.songs = this.songPlayLists[this.currentIndex];
 
     songLists.forEach((songList, songIndex) => {
       songList.innerHTML = this.songs
@@ -58,18 +93,22 @@ const app = {
           app.currentPlayList === index ? "active" : ""
         }" data-index="${index}">
             <div class="playlist__song-info media__left">
-              <div class="playlist__song-check">
+              ${
+                app.currentPlayList === songIndex
+                  ? ""
+                  : `<div class="playlist__song-check">
                   <input type="checkbox" name="" id="playlist__check-${index}" class="mr-10" style="display: none">
                   <label for="playlist__check-${index}"></label>
               </div>
-              <i class="icon ic-song mr-10"></i>
+              <i class="icon ic-song mr-10"></i>`
+              }
               <div class="playlist__song-thumb media__thumb mr-10" style="background: url('${
                 song.image
               }') no-repeat center center / cover">
-                  <div class="thumb--animate">
+                <div class="thumb--animate">
                   <div class="thumb--animate-img" style="background: url('/assets/images/SongActiveAnimation/icon-playing.gif') no-repeat 50% / contain">
+                </div>
               </div>
-            </div>
             <div class="play-song--actions">
               <div class="control-btn btn-toggle-play btn--play-song">
                 <i class="icon ic-play"></i>
@@ -365,12 +404,10 @@ const app = {
 
     //Render Normal playlist
     normalPlayListsExplore.forEach((normalPlayList, normalIndex) => {
-      if (normalIndex === 0) {
-        normalPlayList.innerHTML = this.normalPlayLists
-          .map((playlist, index) => {
-            if (index < 3) {
-              return `
-                <div class="col l-12 m-12 c-12 mb-16">
+      normalPlayList.innerHTML = this.normalPlayLists
+        .map((normal, index) => {
+          let htmls = `
+            <div class="col l-12 m-12 c-12 mb-16">
                   <div class="container__header">
                     <a href="#" class="container__header-title">
                       <h3>${app.normalPlayLists[index].header}</h3>
@@ -409,9 +446,8 @@ const app = {
                                     ${playlist.name}
                                   </a>
                                   <p class="info__artist">
-                                    ${playlist.artists
-                                      .map((artist) => {
-                                        return `
+                                    ${playlist.artists.map((artist) => {
+                                      return `
                                                 <a href="#" class="${
                                                   (index != 1 &&
                                                     index != 2 &&
@@ -421,8 +457,7 @@ const app = {
                                                     ${artist}
                                                   </a>
                                               `;
-                                      })
-                                      .join(",")}
+                                    })}
                                   </p>
                                 </div>
                               </div>
@@ -433,109 +468,63 @@ const app = {
                       .join("")}
                   </div>
                 </div>
-              `;
+          `;
+          if (normalIndex === 0) {
+            if (index < 3) {
+              return htmls;
             }
-          })
-          .join("");
-      } else if (normalIndex === 5) {
-        normalPlayList.innerHTML = this.normalPlayLists
-          .map((playlist, index) => {
-            if (playlist.header === "") {
-              return `
-                <div class="col l-12 m-12 c-12">
-                  <div class="row no-wrap normal-playlist--container">
-                    ${app.normalPlayLists[index].playlists
-                      .map((playlist) => {
-                        return `
-                                <div class="col l-2-4 m-3 c-4 mb-30">
-                                  <div class="row__item item--playlist">
-                                    <div class="row__item-container flex--top-left">
-                                      <div class="row__item-display br-5">
-                                        <div class="row__item-img img--square" style="background: url('${
-                                          playlist.image
-                                        }') no-repeat center center / cover"></div>
-                                        <div class="row__item-actions">
-                                          <div class="action-btn btn--heart">
-                                            <i class="btn--icon icon--heart icon ic-like"></i>
-                                          </div>
-                                        <div class="btn--play-playlist">
-                                      <div class="control-btn btn-toggle-play">
-                                        <i class="icon ic-play"></i>
-                                      </div>
-                                    </div>
-                                    <div class="action-btn">
-                                      <i class="btn--icon icon ic-more"></i>
-                                    </div>
-                                  </div>
-                                  <div class="overlay"></div>
-                                </div>
-                                <div class="row__item-info explore-playlist--info">
-                                  <a href="#" class="row__info-name is-oneline">
-                                    ${playlist.name}
-                                  </a>
-                                  <p class="info__artist">
-                                    ${playlist.artists
-                                      .map((artist) => {
-                                        return `
-                                                <a href="#" class="${
-                                                  (index != 1 &&
-                                                    index != 2 &&
-                                                    "is-ghost") ||
-                                                  "is-description"
-                                                }">
-                                                    ${artist}
-                                                  </a>
-                                              `;
-                                      })
-                                      .join(",")}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        `;
-                      })
-                      .join("")}
-                  </div>
-                </div>
-              `;
+          } else if (normalIndex === 1) {
+            if (index === 3) {
+              return htmls;
             }
-          })
-          .join("");
-      }
+          } else if (normalIndex === 2) {
+            if (index === 4) {
+              return htmls;
+            }
+          } else if (normalIndex === 3) {
+            if (index === 5) {
+              return htmls;
+            }
+          } else {
+            if (index === 6) {
+              return htmls;
+            }
+          }
+        })
+        .join("");
     });
 
     //Render Special playlist
     specialPlaylistsExplore.forEach((specialPlayList, specialIndex) => {
       specialPlayList.innerHTML = this.specialPlayList
         .map((special, index) => {
-          return `
+          let htmls = `
             <div class="col l-12 m-12 c-12 mb-16">
-                    <div class="container__header special-playlist--header">
-                        <div class="row__item-info media">
-                            <div class="media__left">
-                                <div class="row__item-display br-5">
-                                    <div class="row__item-img img--square" style="background: url('${
-                                      special.header.image
-                                    }') no-repeat center center / cover"></div>
-                                </div>
-                                <div class="media__info special-playlist--info">
-                                    <span class="info__explication">${
-                                      special.header.explication
-                                    }</span>
-                                    <h3 class="info__topic-name is-active">${
-                                      special.header.topicName
-                                    }</h3>
-                                </div>
-                            </div>
-                        </div>
+              <div class="container__header special-playlist--header">
+                <div class="row__item-info media">
+                  <div class="media__left">
+                    <div class="row__item-display br-5">
+                      <div class="row__item-img img--square" style="background: url('${
+                        special.header.image
+                      }') no-repeat center center / cover"></div>
+                      </div>
+                      <div class="media__info special-playlist--info">
+                        <span class="info__explication">${
+                          special.header.explication
+                        }</span>
+                        <h3 class="info__topic-name is-active">${
+                          special.header.topicName
+                        }</h3>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                <div class="col l-12 m-12 c-12">
-                    <div class="row no-wrap special-playlist--container">
-                        ${special.playlists
-                          .map((playlist, index) => {
-                            return `
+              </div>
+              <div class="col l-12 m-12 c-12 mb-16 mb-30">
+                <div class="row no-wrap special-playlist--container">
+                  ${special.playlists
+                    .map((playlist, index) => {
+                      return `
                                 <div class="col l-2-4 m-3 c-4">
                                     <div class="row__item item--playlist">
                                         <div class="row__item-container flex--top-left">
@@ -545,11 +534,11 @@ const app = {
                                                 }') no-repeat center center / cover"></div>
                                                 <div class="row__item-actions">
                                                     <div class="action-btn btn--heart">
-                                                        <i class="btn--icon icon--heart bi bi-heart-fill primary"></i>
+                                                        <i class="btn--icon icon--heart icon ic-like"></i>
                                                     </div>
                                                     <div class="btn--play-playlist">
                                                         <div class="control-btn btn-toggle-play">
-                                                            <i class="bi bi-play-fill"></i>
+                                                            <i class="icon ic-play"></i>
                                                         </div>
                                                     </div>
                                                     <div class="action-btn">
@@ -563,26 +552,40 @@ const app = {
                                                 ${playlist.name}
                                               </a>
                                               <p class="info__artist">
-                                                ${playlist.artists
-                                                  .map((artist) => {
+                                                ${playlist.artists.map(
+                                                  (artist) => {
                                                     return `
                                                             <a href="#" class="is-ghost">${artist}</a>
                                                         `;
-                                                  })
-                                                  .join("")}
+                                                  }
+                                                )}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             `;
-                          })
-                          .join("")}
+                    })
+                    .join("")}
                     </div>
                 </div>
           `;
+
+          if (specialIndex === 0) {
+            if (index === 0) {
+              return htmls;
+            }
+          } else if (specialIndex === 1) {
+            if (index === 1 || index === 2) {
+              return htmls;
+            }
+          } else {
+            if (index > 2) {
+              return htmls;
+            }
+          }
         })
-        .join();
+        .join("");
     });
 
     //Render New PlayList
@@ -687,7 +690,47 @@ const app = {
       })
       .join("");
 
+    //render Chart
+
     //Render Label
+    labelExplore.innerHTML = this.labelExplores
+      .map((label) => {
+        return `
+        <div class="col l-4 m-4 c-6 mb-30">
+          <div class="row__item item--label">
+            <div class="row__item-container flex--top-left">
+              <div class="row__item-display br-5">
+                <div class="row__item-img img--label" style="background: url('${label.image}') no-repeat center center / cover"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      })
+      .join("");
+
+    //Render Slidesinger
+    slideSingerExplore.forEach((slideSinger, index) => {
+      slideSinger.innerHTML = this.singerSlice
+        .map((singerslice) => {
+          return `
+          <div class="singer__slide-move hide-on-mobile">
+            <div class="slide__move-btn btn--prev button--disabled">
+              <i class="icon ic-go-left"></i>
+            </div>
+            <div class="slide__move-btn btn--next">
+              <i class="icon ic-go-right"></i>
+            </div>
+          </div>
+          <div class="col l-2-4 m-3 c-4 row-item singer__slide-item">
+            <div class="row__item-display">
+              <div class="singer__slide-img img--singer-slide" style="background: url('${singerslice.image}') no-repeat center center / cover"></div>
+            </div>
+          </div>      
+        `;
+        })
+        .join("");
+    });
 
     //Render Brand
     brands.innerHTML = this.brandsExplore
@@ -757,6 +800,7 @@ const app = {
       .join("");
   },
 
+  //Render Radio
   renderRadio: function () {
     tabRadioplaylist.forEach((tabRadio, radioIndex) => {
       tabRadio.innerHTML = this.radioPlaylist
@@ -813,11 +857,152 @@ const app = {
     });
   },
 
-  //Handle onclick on "content__navbar-item"
-  handleOnclickNavbarItem: function () {
-    const contentNavBar = $$(".content__navbar-item");
-    const tabContainers = $$(".container__tab");
+  //render Follow
+  renderFollow: function () {
+    following.forEach((follow, postIndex) => {
+      follow.innerHTML = this.followingList[postIndex].map((post, index) => {
+        return `
+                <div class="story__item mb-30">
+                  <div class="story__item-container">
+                    <div class="story__item-header">
+                      <div class="row__item-info media story__header-info">
+                        <div class="media__left">
+                          <div class="media__thumb is-rounded mr-10" style="background: url('${
+                            post.authorAvatar
+                          }') no-repeat center center / cover"></div>
+                          <div class="media__info">
+                            <div class="media__info-header">
+                              <div class="info__title is-active is-oneline">${
+                                post.name
+                              }</div>
+                              <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+                              <span class="follow-btn">Quan tâm</span>
+                            </div>
+                            <p class="info__time">
+                              <a href="#" class="is-active">${post.time}</a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="story__header-content">
+                        <span>${post.content}</span>
+                      </div>
+                    </div>
+                  <div class="row__item-display br-5 story__item-display">
+                    <div
+                        class=" story__item-img ${
+                          postIndex === 0 && index < 2 && "img--rec"
+                        }
+                        ${postIndex === 0 && index === 2 && "img--rec-vertical"}
+                        ${postIndex === 0 && index === 3 && "img--square"}
+                        ${postIndex === 0 && index === 4 && "img--rec"}
+                        ${postIndex === 1 && index < 4 && "img--square"}
+                        ${postIndex === 1 && index === 4 && "img--rec"}"
+                        style="background: url('${
+                          post.image
+                        }') no-repeat center center / cover">
+                    </div>
+                  </div>
+                  <div class="story__item-action">
+                    <div class="action-btn story-btn--heart">
+                      <i class="btn--icon icon--heart icon ic-like"></i>
+                      <span class="action__number">${Math.floor(
+                        Math.random() * 1000
+                      )}</span>
+                    </div>
+                    <div class="action-btn story-btn--comment">
+                      <i class="btn--icon icon--comment icon ic-comment"></i>
+                      <span class="action__number">${Math.floor(
+                        Math.random() * 100
+                      )}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+      });
+    });
+  },
 
+  renderPlayer: function () {},
+
+  defineProperties: function () {
+    Object.defineProperty(this, "currentSong", {
+      get: function () {
+        return this.songs[this.currentPlayList];
+      },
+    });
+  },
+
+  //load Curent Song
+  loadCurrentSong: function () {
+    titleItems.forEach((title, index) => {
+      title.textContent = `${this.songs[this.currentIndex].name}`;
+    });
+    inforAuthor.forEach((author, index) => {
+      author.textContent = this.songs[this.currentIndex].singer;
+    });
+    thumbImgs.forEach((thumbImg, index) => {
+      thumbImg.style.background = `url('${
+        this.songs[this.currentIndex].image
+      }')  no-repeat center center / cover`;
+    });
+    audio.src = `${this.songs[this.currentIndex].path}`;
+  },
+
+  //load PlayLists
+  loadPlaylists: function () {
+    this.songPlayLists.map((songPlaylist, index) => {
+      this.songs = songPlaylist;
+      console.log();
+    });
+  },
+
+  //handle Event
+  handleEvent: function () {
+    const _this = this;
+    const iconPlays = $$(".btn--play-song");
+    const itemPlaylists = $$(".playlist--container .btn--play-playlist");
+
+    const cdthumbAnimate = $(".player__song-thumb .thumb-img").animate(
+      [{ transform: "rotate(360deg)" }],
+      {
+        duration: 15000,
+        iterations: Infinity,
+      }
+    );
+
+    cdthumbAnimate.pause();
+
+    //ScrollTop sidebarSubNav
+    sidebarEvent.addEventListener("scroll", () => {
+      const scrollTop = sidebarEvent.scrollY || sidebarEvent.scrollTop;
+      if (scrollTop > 5) {
+        sidebarSubNav.classList.add("has-mask");
+      } else {
+        sidebarSubNav.classList.remove("has-mask");
+      }
+    });
+
+    //scrollTop HeaderEvent
+    appContainer.forEach((app) => {
+      app.addEventListener("scroll", () => {
+        const scrollTop = app.scrollY || app.scrollTop;
+        if (scrollTop > 10) {
+          Object.assign(headerEvent.style, {
+            backgroundColor: "var(--layout-bg)",
+            boxShadow: "0 3px 3px rgba(0, 0, 0, 0.2)",
+          });
+        } else {
+          Object.assign(headerEvent.style, {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          });
+        }
+      });
+    });
+
+    //Handle onclick on "content__navbar-item"
     contentNavBar.forEach((songIndex, index) => {
       songIndex.addEventListener("click", function () {
         const tabContainer = tabContainers[index];
@@ -830,13 +1015,8 @@ const app = {
         });
       });
     });
-  },
 
-  //Handle onclick on "sidenar__nav-item"
-  handleOnclickSidebarNavItem: function () {
-    const sidebarNavItem = $$(".sidebar__nav-item");
-    const appContainers = $$(".app__container");
-
+    //Handle onclick on "sidenar__nav-item"
     sidebarNavItem.forEach((sidebarIndex, index) => {
       sidebarIndex.addEventListener("click", function () {
         const appContent = appContainers[index];
@@ -849,12 +1029,146 @@ const app = {
         });
       });
     });
+
+    //handle when onlick icon-play
+    console.log(iconPlays);
+    iconPlays.forEach((iconPlay) => {
+      iconPlay.addEventListener("click", () => {
+        console.log(iconPlay);
+        if (_this.isPlay) {
+          audio.pause();
+        } else {
+          audio.play();
+        }
+      });
+    });
+
+    //when Song play
+    audio.addEventListener("play", () => {
+      _this.isPlay = true;
+      player.classList.add("playing");
+      $(".playlist__list-song.active .thumb--animate").style.display = "flex";
+      $(".playlist__list-song.active .btn-toggle-play").style.display = "none";
+      $(".player__song-info").classList.add("playing");
+      cdthumbAnimate.play();
+    });
+
+    //when song pause
+    audio.addEventListener("pause", () => {
+      _this.isPlay = false;
+      player.classList.remove("playing");
+      $(".playlist__list-song.active .thumb--animate").style.display = "none";
+      $(".playlist__list-song.active .btn-toggle-play").style.display = "flex";
+      $(".player__song-info").classList.remove("playing");
+      cdthumbAnimate.pause();
+    });
+
+    //when the current playback position has changed
+    progress.forEach((progressChild) => {
+      progressChild.addEventListener("input", (e) => {
+        const seekTime = (audio.duration * e.target.value) / 100;
+        audio.currentTime = seekTime;
+      });
+    });
+
+    //when seek song
+    audio.addEventListener("timeupdate", () => {
+      if (audio.duration) {
+        progress.forEach((progressChild) => {
+          progressChild.value = Math.round(
+            (audio.currentTime / audio.duration) * 100
+          );
+        });
+        progressTracks.forEach((progressTrack) => {
+          progressTrack.style.width =
+            Math.round((audio.currentTime / audio.duration) * 100) + "%";
+        });
+      }
+    });
+
+    //when control volume
+    volumeRange.addEventListener("input", (e) => {
+      const changeVolume = e.target.value / 100;
+
+      audio.volume = changeVolume;
+      console.log(changeVolume);
+
+      seekVolume.style.width = changeVolume * 100 + "%";
+    });
+
+    //When click volume
+    $(".volume").addEventListener("click", () => {});
+
+    //handle event nextSong
+    nextsong.addEventListener("click", () => {
+      if (_this.isRandom) {
+        _this.playRandomSong();
+      } else {
+        _this.nextSong();
+      }
+      audio.play();
+    });
+
+    //preview Song
+    prevsong.addEventListener("click", () => {
+      _this.prevSong();
+      $(".playlist__list-song.active").classList.remove("active");
+      $(".playlist__list-song").classList.add("active");
+      audio.play();
+    });
+
+    //random Song
+    btnRandom.addEventListener("click", () => {
+      _this.isRandom = !_this.isRandom;
+      btnRandom.classList.toggle("active", _this.isRandom);
+    });
+
+    //handle onclick change item-playlist
+    itemPlaylists.forEach((itemPlaylist, index) => {
+      itemPlaylist.addEventListener("click", () => {
+        _this.currentIndex = index;
+        console.log(_this.currentIndex);
+        _this.rederListSong();
+      });
+    });
+  },
+
+  //next Song
+  nextSong: function () {
+    this.currentIndex++;
+    if (this.currentIndex >= this.songs.length) {
+      this.currentIndex = 0;
+    }
+
+    this.loadCurrentSong();
+  },
+  //prev Song
+  prevSong: function () {
+    this.currentIndex--;
+    if (this.currentIndex < 0) {
+      this.currentIndex = this.songs.length - 1;
+    }
+
+    this.loadCurrentSong();
+  },
+
+  playRandomSong: function () {
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * this.songs.length);
+    } while (newIndex === this.currentIndex);
+
+    this.currentIndex = newIndex;
+
+    this.loadCurrentSong();
   },
 
   start: function () {
     this.rederListSong();
 
     this.renderPlayLists();
+
+    this.handleEvent();
 
     this.renderAlbumList();
 
@@ -866,9 +1180,14 @@ const app = {
 
     this.renderRadio();
 
-    this.handleOnclickNavbarItem();
+    this.renderFollow();
 
-    this.handleOnclickSidebarNavItem();
+    //defined Properties
+    this.defineProperties();
+
+    this.loadCurrentSong();
+
+    this.loadPlaylists();
   },
 };
 

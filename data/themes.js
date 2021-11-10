@@ -61,6 +61,7 @@ const Themes = [
         textSecondary: "rgb(255 255 255 / 50%)",
         navigationText: "#dadada",
         placeholderText: "#dadada",
+        linearGradientBg: "linear-gradient(180deg,#1b2f5a,#182e5d)",
       },
     },
     {
