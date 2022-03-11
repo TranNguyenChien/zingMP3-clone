@@ -1,11 +1,11 @@
 const listAlbum = [
   {
     name: "Golden Hour",
-    image: "/assets/images/albums/album1.jpg",
+    image: "./assets/images/albums/album1.jpg",
   },
   {
     name: "Boycold (Mini Album)",
-    image: "/assets/images/albums/album2.jpg",
+    image: "./assets/images/albums/album2.jpg",
   },
   {
     name: "Red",

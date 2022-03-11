@@ -43,6 +43,7 @@ const nextsong = $(".btn-next");
 const prevsong = $(".btn-prev");
 const btnRepeat = $(".btn-repeat");
 const btnRandom = $(".btn-random ");
+const trackTime = $(".tracktime");
 
 // console.log(itemPlaylists);
 
@@ -1051,6 +1052,9 @@ const app = {
       $(".playlist__list-song.active .btn-toggle-play").style.display = "none";
       $(".player__song-info").classList.add("playing");
       cdthumbAnimate.play();
+      //text Content track Time
+      trackTime.textContent = this.songs[this.currentIndex].duration;
+      console.log(trackTime);
     });
 
     //when song pause
@@ -1131,6 +1135,9 @@ const app = {
         _this.rederListSong();
       });
     });
+
+    //text Content track Time
+    trackTime.textContent = this.songs[this.currentIndex].duration;
   },
 
   //next Song
@@ -1140,6 +1147,7 @@ const app = {
       this.currentIndex = 0;
     }
 
+    trackTime.textContent = this.songs[this.currentIndex].duration;
     this.loadCurrentSong();
   },
   //prev Song
@@ -1149,6 +1157,8 @@ const app = {
       this.currentIndex = this.songs.length - 1;
     }
 
+    //text Content track Time
+    trackTime.textContent = this.songs[this.currentIndex].duration;
     this.loadCurrentSong();
   },
 
@@ -1160,6 +1170,8 @@ const app = {
 
     this.currentIndex = newIndex;
 
+    //text Content track Time
+    trackTime.textContent = this.songs[this.currentIndex].duration;
     this.loadCurrentSong();
   },
 
